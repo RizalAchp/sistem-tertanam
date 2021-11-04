@@ -3,14 +3,14 @@
 ## Nyoba Python-Tk pertama
 
 ---
-### Desclaimer
+### Disclaimer
 untuk kalian yang masih bingung bagaimana caranya, tidak perlu kawatir. disini saya akan menjelaskan secara singkat
 1. pertama2, tkinter mmerupakan library  gui yang dapat digunakan di beberapa bahasa pemrograman, tidak hanya python
 2. tkinter itu *multi platform* atau dapat di katakan, tersedia dan dapat berjalan di windows,mac, maupun linux.
-3. penggunaan library ini dalam segi kesulitan dalam memrogram bisa dikatakan tidak terlalu mudah dan tidak terlalu susah :v **avarage**
+3. penggunaan library ini dalam segi kesulitan memrogram bisa dikatakan tidak terlalu mudah dan tidak terlalu susah :v **avarage**
 
 ### first take
-1. pertama, **SUDAH PASTI HARUS DOWNLOAD PYTHON** misal mungkin kalian belum menginstallnya. bisa [sini](https://www.python.org/downloads/)
+1. pertama, **SUDAH PASTI HARUS DOWNLOAD PYTHON** jika kalian belum menginstallnya. bisa download [di sini](https://www.python.org/downloads/)
 2. kedua, setelah yakin **python** sudah terinstall, coba buka terminal (cmd / powershell) *saya sarankan powershell aja* terus ketik
 
 ```fish
@@ -39,6 +39,18 @@ clone project
 
 ```fish
 git clone https://github.com/RizalAchp/sistem-tertanam.git
+```
+
+setelah clone , masuk ke directory  repo yang sudah di clone 
+
+```fish
+cd ./sistem-tertanam
+```
+
+dan
+
+```fish
+cd ./tkinter-4led-control
 ```
 
 install requirements : 
