@@ -1,20 +1,29 @@
+#!/usr/bin/python3
+from func import *
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Button, PhotoImage
 
+# mendefinisikan tempat aset
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
+# memanggil file function pyfirmatanya
 
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
-window = Tk()
+def quit_button():
+    analog_buzz.write(0)
+    for x in ledPin:
+        board.digital[x].write(0)
+    window.destroy()
 
+
+# memulai window dengan beberapa konfigurasinya
+window = Tk()
 window.geometry("500x300")
 window.configure(bg="#282A36")
-
-
 canvas = Canvas(
     window,
     bg="#282A36",
@@ -24,7 +33,7 @@ canvas = Canvas(
     highlightthickness=0,
     relief="ridge"
 )
-
+# memasukkan gambar pada canvas
 canvas.place(x=0, y=0)
 image_image_1 = PhotoImage(
     file=relative_to_assets("image_1.png"))
@@ -33,15 +42,16 @@ image_1 = canvas.create_image(
     150.0,
     image=image_image_1
 )
-
+# udah tau dari nama, ini tombol (button)
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     background="#000000",
+    activebackground="#f1f1f0",
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    command=quit_button,
     relief="raised"
 )
 button_1.place(
@@ -57,8 +67,9 @@ button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     background="#000000",
+    activebackground="#f1f1f0",
     highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
+    command=sensor_sonic,
     relief="raised"
 )
 button_2.place(
@@ -74,8 +85,9 @@ button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     background="#000000",
+    activebackground="#f1f1f0",
     highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
+    command=sensor_suhu,
     relief="raised"
 )
 button_3.place(
@@ -90,9 +102,10 @@ button_image_4 = PhotoImage(
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
+    activebackground="#f1f1f0",
     background="#000000",
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    command=buzzer,
     relief="raised"
 )
 button_4.place(
@@ -108,8 +121,9 @@ button_5 = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
+    activebackground="#f1f1f0",
     background="#000000",
-    command=lambda: print("button_5 clicked"),
+    command=led_blink,
     relief="raised"
 )
 button_5.place(
