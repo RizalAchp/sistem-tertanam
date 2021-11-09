@@ -33,6 +33,7 @@ def buzzer():
     analog_buzz.write(0.8)
     board.pass_time(0.5)
     analog_buzz.write(0)
+    board.pass_time(0.5)
 
 
 def sensor_suhu():
@@ -48,4 +49,4 @@ def sensor_suhu():
 
 
 def sensor_sonic():
-    print("bug, puseng cok")
+    print("bug, puseng ")
