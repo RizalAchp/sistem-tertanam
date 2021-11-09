@@ -12,28 +12,24 @@
 ----------------------
 ### Content
 ---------------------- 
-#### [1. Arduino Code 1](https://github.com/RizalAchp/sistem-tertanam/tree/main/Arduino/Tugas-WorkshopSistemTertanam-1)
+#### 1. Arduino Code
 
-+ [x] tugas pertama arduino ( pratik 1 )
++ [x] [tugas pertama arduino (pratik 1)](https://github.com/RizalAchp/sistem-tertanam/tree/main/Arduino/Tugas-WorkshopSistemTertanam-1)
 
-#### [2. Arduino Code 2](https://github.com/RizalAchp/sistem-tertanam/tree/main/Arduino/Tugas-WorkshopSystemTertanam-2)
++ [x] [tugas kedua arduino (praktik 2)](https://github.com/RizalAchp/sistem-tertanam/tree/main/Arduino/Tugas-WorkshopSystemTertanam-2)
 
-+ [x] tugas kedua arduino ( praktik 2 )
++ [x] [tugas arduino (praktik 4)](https://github.com/RizalAchp/sistem-tertanam/tree/main/Arduino/praktik4)
 
-#### [3. Arduino Code 3](https://github.com/RizalAchp/sistem-tertanam/tree/main/Arduino/praktik4)
+#### 4. Python Pyfirmata
 
-+ [x] tugas arduino (praktik 4)
++ [x] [belajar python pyfirmata pertama (praktik blok)](https://github.com/RizalAchp/sistem-tertanam/tree/main/pyfirmata/tugas1)
 
-#### [4. Python Pyfirmata](https://github.com/RizalAchp/sistem-tertanam/tree/main/pyfirmata/tugas1)
+#### 5. Python Pyfirmata UTS
 
-+ [x] belajar python pyfirmata pertama ( praktik blok )
++ [x] [ujian UTS menggunakan pyfirmata](https://github.com/RizalAchp/sistem-tertanam/tree/main/uts)
 
-#### [5. Python Pyfirmata UTS](https://github.com/RizalAchp/sistem-tertanam/tree/main/uts)
+#### 6. Belajar Python Tkinter
 
-+ [x] ujian UTS menggunakan pyfirmata
-
-#### [6. Belajar Python Tkinter](https://github.com/RizalAchp/sistem-tertanam/tree/main/belajar-tkinter)
-
-+ [ ] beajar Python tkinter
++ [ ] [folder belajar Python tkinter](https://github.com/RizalAchp/sistem-tertanam/tree/main/belajar-tkinter)
 + [x] [tk-gui with 4led controll](https://github.com/RizalAchp/sistem-tertanam/tree/main/belajar-tkinter/tkinter-4led-control)
 + [x] [tk-gui tempate and theme](https://github.com/RizalAchp/sistem-tertanam/tree/main/belajar-tkinter/tkinter-beautiful-design%5Bmaybe%5D)
