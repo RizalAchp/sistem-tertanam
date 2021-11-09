@@ -20,15 +20,15 @@
 
 + [x] [tugas arduino (praktik 4)](https://github.com/RizalAchp/sistem-tertanam/tree/main/Arduino/praktik4)
 
-#### 4. Python Pyfirmata
+#### 2. Python Pyfirmata
 
 + [x] [belajar python pyfirmata pertama (praktik blok)](https://github.com/RizalAchp/sistem-tertanam/tree/main/pyfirmata/tugas1)
 
-#### 5. Python Pyfirmata UTS
+#### 3. Python Pyfirmata UTS
 
 + [x] [ujian UTS menggunakan pyfirmata](https://github.com/RizalAchp/sistem-tertanam/tree/main/uts)
 
-#### 6. Belajar Python Tkinter
+#### 4. Belajar Python Tkinter
 
 + [ ] [folder belajar Python tkinter](https://github.com/RizalAchp/sistem-tertanam/tree/main/belajar-tkinter)
 + [x] [tk-gui with 4led controll](https://github.com/RizalAchp/sistem-tertanam/tree/main/belajar-tkinter/tkinter-4led-control)
