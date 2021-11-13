@@ -4,6 +4,8 @@ import time
 import datetime
 from pyfirmata.util import Iterator
 
+from . import *
+
 board = pyfirmata.Arduino('/dev/ttyACM0')
 it = Iterator(board)
 it.start()

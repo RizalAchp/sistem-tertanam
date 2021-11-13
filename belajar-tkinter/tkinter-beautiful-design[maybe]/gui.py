@@ -8,7 +8,7 @@ OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
 
 
-def relative_to_assets(path: str) -> Path:
+def folder_asset(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
@@ -35,7 +35,7 @@ canvas = Canvas(
 # memasukkan gambar pada canvas
 canvas.place(x=0, y=0)
 image_image_1 = PhotoImage(
-    file=relative_to_assets("image_1.png"))
+    file=folder_asset("image_1.png"))
 image_1 = canvas.create_image(
     321.0,
     150.0,
@@ -43,7 +43,7 @@ image_1 = canvas.create_image(
 )
 # udah tau dari nama, ini tombol (button)
 button_image_1 = PhotoImage(
-    file=relative_to_assets("button_1.png"))
+    file=folder_asset("button_1.png"))
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
@@ -61,7 +61,7 @@ button_1.place(
 )
 
 button_image_2 = PhotoImage(
-    file=relative_to_assets("button_2.png"))
+    file=folder_asset("button_2.png"))
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
@@ -79,7 +79,7 @@ button_2.place(
 )
 
 button_image_3 = PhotoImage(
-    file=relative_to_assets("button_3.png"))
+    file=folder_asset("button_3.png"))
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
@@ -97,7 +97,7 @@ button_3.place(
 )
 
 button_image_4 = PhotoImage(
-    file=relative_to_assets("button_4.png"))
+    file=folder_asset("button_4.png"))
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
@@ -115,7 +115,7 @@ button_4.place(
 )
 
 button_image_5 = PhotoImage(
-    file=relative_to_assets("button_5.png"))
+    file=folder_asset("button_5.png"))
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,

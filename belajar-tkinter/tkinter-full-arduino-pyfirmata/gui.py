@@ -1,51 +1,55 @@
+#!/usr/bin/python3
 from pathlib import Path
-from time import sleep
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-from tkinter.constants import END,  NORMAL
-from pyfirmata import Arduino
-from pyfirmata.util import Iterator
-from datetime import datetime
+from tkinter.constants import END, NORMAL
 
-# Menentukan Lokasi Asset Template
-OUTPUT_PATH = Path(__file__).parent
-# string full path, agar dapat di panggil setiap aset nya.
-ASSETS_PATH = OUTPUT_PATH / Path("../assets")
+from fun import *
 
 
-def path_asset(path: str) -> Path:
-    return ASSETS_PATH / Path(path)
+def togle():
+    if led_one["state"] == "disabled":
+        led_one["state"] = "normal"
+    if led_two["state"] == "disabled":
+        led_two["state"] = "normal"
+    if led_three["state"] == "disabled":
+        led_three["state"] = "normal"
+    if led_four["state"] == "disabled":
+        led_four["state"] = "normal"
+    if buzzer_button["state"] == "disabled":
+        buzzer_button["state"] = "normal"
+    if hcsr04_button["state"] == "disabled":
+        hcsr04_button["state"] = "normal"
+    if lm35_button["state"] == "disabled":
+        lm35_button["state"] = "normal"
+    if led_var_button["state"] == "disabled":
+        led_var_button["state"] = "normal"
+    else:
+        led_one["state"] = "disabled"
+        led_two["state"] = "disabled"
+        led_three["state"] = "disabled"
+        led_four["state"] = "disabled"
+        buzzer_button["state"] = "disabled"
+        hcsr04_button["state"] = "disabled"
+        lm35_button["state"] = "disabled"
+        led_var_button["state"] = "disabled"
 
 
 def starting():
-    b1 = led_one
-    b2 = led_two
-    b3 = led_three
-    b4 = led_four
-    if b1["state"] == "disabled":
-        b1["state"] = "normal"
-    if b2["state"] == "disabled":
-        b2["state"] = "normal"
-    if b3["state"] == "disabled":
-        b3["state"] = "normal"
-    if b4["state"] == "disabled":
-        b4["state"] = "normal"
-    else:
-        b1["state"] = "disabled"
-        b2["state"] = "disabled"
-        b3["state"] = "disabled"
-        b4["state"] = "disabled"
+    togle()
     display = main_text_display
+    display2 = second_text_display
+    display2.insert(END, '\nPOWER ON!')
+    display2.see(END)
     display.insert(END, 'SELAMAT DATANG!\nDisini anda dapat melakukan banyak hal pada arduino dengan\nmenggunakan GUI!\n\t1. anda dapat menghidupkan LED satu persatu pada tombol\n\t   dengan icon LED dibagian kanan!\n\t2.anda juga dapat menggunakan tombol dibawahnya untuk\n\t   memulai fungsi2 pada sensor!\nDan banyak inputan2 yang dapat digunakan untuk fungsi\nyang akan dijalankan!')
     display.see(END)
 
 
 def restart():
+    togle()
+    mati()
     display2 = second_text_display
-    display2.insert(END, 'SELAMAT TINGGAL....\n')
-    delay(1.0)
-    # for x in ledVar:
-    #     board.digital[x].write(0)
-    window.destroy()
+    display2.insert(END, '\nPOWERING OFF....')
+    display2.see(END)
 
 
 def led1():
@@ -56,10 +60,7 @@ def led1():
     display.insert(
         END, '\nANDA MENJALANKAN FUNGSI LED1\nLED1 AKAN BERKEDIP SEKALI.\n')
     display.see(END)
-    led_1.write(1)
-    delay(0.3)
-    led_1.write(0)
-    delay(0.3)
+    pin_led_1()
     led_one.config(state=NORMAL)
 
 
@@ -71,10 +72,7 @@ def led2():
     display.insert(
         END, '\nANDA MENJALANKAN FUNSI LED2\nLED2 AKAN BERKEDIP SEKALI.\n')
     display.see(END)
-    led_2.write(1)
-    delay(0.3)
-    led_2.write(0)
-    delay(0.3)
+    pin_led_2()
     led_two.config(state=NORMAL)
 
 
@@ -86,10 +84,7 @@ def led3():
     display.insert(
         END, '\nANDA MENJALANKAN FUNSI LED3\nLED3 AKAN BERKEDIP SEKALI.\n')
     display.see(END)
-    led_3.write(1)
-    delay(0.3)
-    led_3.write(0)
-    delay(0.3)
+    pin_led_3()
     led_three.config(state=NORMAL)
 
 
@@ -101,67 +96,41 @@ def led4():
     display.insert(
         END, '\nANDA MENJALANKAN FUNSI LED4\nLED4 AKAN BERKEDIP SEKALI,\n')
     display.see(END)
-    led_4.write(1)
-    delay(0.3)
-    led_4.write(0)
-    delay(0.3)
+    pin_led_4()
     led_four.config(state=NORMAL)
 
 
 def led_var():
-    for x in ledVar:
-        board.digital[x].write(1)
-        print('led ', x, ' hidup')
-        delay(0.3)
-        board.digital[x].write(0)
-        print('led ', x, ' mati')
-        delay(0.3)
-    led_four.config(state=NORMAL)
+    led_var_button.config(state=NORMAL)
+    pin_led_var()
 
 
 def buzzer():
     print('buzzer berbunyi')
-    buzz.write(0.2)
-    board.pass_time(0.5)
-    buzz.write(0.6)
-    board.pass_time(0.5)
-    buzz.write(0.8)
-    board.pass_time(0.5)
-    buzz.write(0)
-    board.pass_time(0.5)
-    led_four.config(state=NORMAL)
+    buzzer_button.config(state=NORMAL)
+    buzzer_fun()
 
 
 def ukur_suhu():
-    nilai = pin_suhu.read()
-    if nilai is not None:
-        delay(4)
-        suhu = 5.0*100*nilai
-        format_tgl = tgl.hour,\
-            tgl.minute, tgl.second
-        print('suhu ruangan pada ', '%d:%d:%d'
-              % (format_tgl), ' adalah', suhu, ' celcius')
-
-# TODO make function for ultrasonic sensor
+    lm35_button.config(state=NORMAL)
+    lm35_fun()
 
 
-def sensor_sonic():
-    print('menyusul')
+def hcsr_call():
+    hcsr04_button.config(state=NORMAL)
+    hcsr04_fun()
 
 
-board = Arduino('/dev/ttyACM0')
-it = Iterator(board)
-delay = sleep
-tgl = datetime.now()
-ledVar = [6, 7, 8, 9]
-led_1 = board.digital[6]
-led_2 = board.digital[7]
-led_3 = board.digital[8]
-led_4 = board.digital[9]
-pin_suhu = board.get_pin('a:1:i')
-buzz = board.get_pin('d:5:p')
-it.start()
+def path_asset(path: str) -> Path:
+    # Menentukan Lokasi Asset Template
+    return ASSETS_PATH / Path(path)
 
+
+OUTPUT_PATH = Path(__file__).parent
+# string full path, agar dapat di panggil setiap aset nya.
+ASSETS_PATH = OUTPUT_PATH / Path("./assets")
+
+# variable tkinter dan widget2 nya
 window = Tk()
 window.geometry("620x641")
 window.configure(bg="#7C7C7C")
@@ -235,7 +204,8 @@ entry_bg_3 = canvas.create_image(
 value_delay = Entry(
     bd=0,
     bg="#F9F9F9",
-    highlightthickness=0
+    highlightthickness=0,
+    font=("mononokiNerdFontComplete Regular", 14 * -1)
 )
 value_delay.place(
     x=166.0,
@@ -251,12 +221,13 @@ entry_bg_4 = canvas.create_image(
     472.5,
     image=entry_image_4
 )
-entry_4 = Entry(
+value_text = Entry(
     bd=0,
     bg="#F9F9F9",
-    highlightthickness=0
+    highlightthickness=0,
+    font=("mononokiNerdFontComplete Regular", 14 * -1)
 )
-entry_4.place(
+value_text.place(
     x=166.0,
     y=453.0,
     width=127.0,
@@ -270,12 +241,12 @@ entry_bg_5 = canvas.create_image(
     402.5,
     image=entry_image_5
 )
-entry_5 = Entry(
+value_nama = Entry(
     bd=0,
     bg="#F9F9F9",
     highlightthickness=0
 )
-entry_5.place(
+value_nama.place(
     x=166.0,
     y=383.0,
     width=127.0,
@@ -284,14 +255,14 @@ entry_5.place(
 
 button_image_1 = PhotoImage(
     file=path_asset("button_1.png"))
-button_1 = Button(
+exit_button = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
     command=restart,
     relief="raised"
 )
-button_1.place(
+exit_button.place(
     x=465.0,
     y=265.0,
     width=111.0,
@@ -300,14 +271,14 @@ button_1.place(
 
 button_image_2 = PhotoImage(
     file=path_asset("button_2.png"))
-button_2 = Button(
+start_button = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
     command=starting,
     relief="raised"
 )
-button_2.place(
+start_button.place(
     x=341.0,
     y=265.0,
     width=111.0,
@@ -316,14 +287,15 @@ button_2.place(
 
 button_image_3 = PhotoImage(
     file=path_asset("button_3.png"))
-button_3 = Button(
+hcsr04_button = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
     command=lambda: print("button_3 clicked"),
+    state="disabled",
     relief="raised"
 )
-button_3.place(
+hcsr04_button.place(
     x=465.3874816894531,
     y=520.7470703125,
     width=110.61251831054688,
@@ -332,14 +304,15 @@ button_3.place(
 
 button_image_4 = PhotoImage(
     file=path_asset("button_4.png"))
-button_4 = Button(
+led_var_button = Button(
     image=button_image_4,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    command=led_var,
+    state="disabled",
     relief="raised"
 )
-button_4.place(
+led_var_button.place(
     x=334.0,
     y=520.7470703125,
     width=112.0,
@@ -348,14 +321,15 @@ button_4.place(
 
 button_image_5 = PhotoImage(
     file=path_asset("button_5.png"))
-button_5 = Button(
+lm35_button = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_5 clicked"),
+    command=ukur_suhu,
+    state="disabled",
     relief="raised"
 )
-button_5.place(
+lm35_button.place(
     x=464.0,
     y=450.0,
     width=112.0,
@@ -364,14 +338,15 @@ button_5.place(
 
 button_image_6 = PhotoImage(
     file=path_asset("button_6.png"))
-button_6 = Button(
+buzzer_button = Button(
     image=button_image_6,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_6 clicked"),
+    command=buzzer,
+    state="disabled",
     relief="raised"
 )
-button_6.place(
+buzzer_button.place(
     x=334.0,
     y=450.0,
     width=112.0,
