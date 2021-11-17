@@ -3,7 +3,7 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from tkinter.constants import END, NORMAL
 
-from fun import *
+from classes.fun import *
 
 
 def togle():
@@ -128,7 +128,7 @@ def path_asset(path: str) -> Path:
 
 OUTPUT_PATH = Path(__file__).parent
 # string full path, agar dapat di panggil setiap aset nya.
-ASSETS_PATH = OUTPUT_PATH / Path("./assets")
+ASSETS_PATH = OUTPUT_PATH / Path("../assets")
 
 # variable tkinter dan widget2 nya
 window = Tk()

@@ -1,5 +1,5 @@
-import gui
+import classes
 
 if __name__ == '__main__':
-    app = gui()
-    app()
+    app = classes()
+    app.Run()
