@@ -3,9 +3,10 @@ from pymata4.pymata4 import Pymata4
 from classes.note_music import *
 import time
 
+board = Pymata4('/dev/ttyACM0')
+
 
 def pin_led_1():
-    board = Pymata4('/dev/ttyACM0')
     led_var = [6, 7, 8, 9]
     board.set_pin_mode_digital_output(led_var[0])
     board.digital_write(led_var[0], 1)
@@ -14,7 +15,6 @@ def pin_led_1():
 
 
 def pin_led_2():
-    board = Pymata4('/dev/ttyACM0')
     led_var = [6, 7, 8, 9]
     board.set_pin_mode_digital_output(led_var[1])
     board.digital_write(led_var[1], 1)
@@ -23,7 +23,6 @@ def pin_led_2():
 
 
 def pin_led_3():
-    board = Pymata4('/dev/ttyACM0')
     led_var = [6, 7, 8, 9]
     board.set_pin_mode_digital_output(led_var[2])
     board.digital_write(led_var[2], 1)
@@ -32,7 +31,6 @@ def pin_led_3():
 
 
 def pin_led_4():
-    board = Pymata4('/dev/ttyACM0')
     led_var = [6, 7, 8, 9]
     board.set_pin_mode_digital_output(led_var[3])
     board.digital_write(led_var[3], 1)
@@ -41,26 +39,24 @@ def pin_led_4():
 
 
 def pin_led_var():
-    board = Pymata4('/dev/ttyACM0')
     led_var = [6, 7, 8, 9]
-    for x in led_var:
-        board.set_pin_mode_digital_output(x)
-        board.digital_write(x, 1)
+    for i in led_var:
+        board.set_pin_mode_digital_output(i)
+        board.digital_write(i, 1)
         time.sleep(0.5)
-        board.digital_write(x, 0)
+        board.digital_write(i, 0)
 
 
 def buzzer_fun():
-    board = Pymata4('/dev/ttyACM0')
     buzzer_pin = 5
     board.set_pin_mode_tone(buzzer_pin)
     for durasi in note_len:
-        for x in note_freq:
-            board.play_tone(buzzer_pin, x, durasi)
+        for freq in note_freq:
+            board.play_tone(buzzer_pin, freq, durasi)
             waktu = float(durasi/1000*0.9)
             time.sleep(waktu)
             board.play_tone_off(buzzer_pin)
-            print(x, durasi, waktu)
+            print(freq, ' hz')
 
 
 def callback_lm35(data):
@@ -70,7 +66,6 @@ def callback_lm35(data):
 
 
 def lm35_fun():
-    board = Pymata4('/dev/ttyACM0')
     lm35_pin = 1
     board.set_pin_mode_analog_input(lm35_pin, callback_lm35)
     try:
@@ -87,7 +82,6 @@ def call_back_sonar(data):
 
 
 def hcsr04_fun():
-    board = Pymata4('/dev/ttyACM0')
     # define trigger dan echo pin pada hcsr04
     trig_pin = 12
     echo_pin = 11
@@ -102,12 +96,10 @@ def hcsr04_fun():
 
 
 def starting_again():
-    board = Pymata4('/dev/ttyACM0')
     board.start()
 
 
 def mati():
-    board = Pymata4('/dev/ttyACM0')
-    board.shutdown_flag
     board.sleep_tune
+    board.shutdown()
     board.shutdown_on_exception

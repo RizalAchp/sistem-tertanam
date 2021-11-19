@@ -1,0 +1,7 @@
+button 6 = varled
+button 5 = buzzer
+button 2 = suhu
+button 1 = jarak
+button 3 = start
+button 4 = stop/or interrupt
+button [7,8,9,10] = [led1,led2,led3,led4]

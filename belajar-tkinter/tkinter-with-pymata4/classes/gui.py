@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-from tkinter.constants import END, NORMAL
+from tkinter.constants import DISABLED, END, NORMAL
+import datetime
 
 from classes.fun import *
 
@@ -106,14 +107,33 @@ def led_var():
 
 
 def buzzer():
+    buzzer_fun()
+    display2 = second_text_display
+    display2.insert(END, '\nbuzzer berbunyi')
+    display2.see(END)
+    display = main_text_display
+    display.insert(
+        END, '\nANDA MENJALANKAN FUNSI BUZZER\nBUZZER AKAN BERBUNYI,\nPADA FREQUENSI= hz')
+    display.see(END)
     print('buzzer berbunyi')
     buzzer_button.config(state=NORMAL)
-    buzzer_fun()
 
 
 def ukur_suhu():
-    lm35_button.config(state=NORMAL)
+    waktu = datetime.datetime.now()
+    format_waktu = waktu.hour, waktu.minute, waktu.second
+    display2 = second_text_display
+    display2.insert(END, '\nLM35 Mengukur suhu..')
+    display2.see(END)
+    display = main_text_display
+    display.insert(
+        END, '\nANDA MENJALANKAN FUNSI LM35\nLM35 AKAN MENGUKUR SUHU..')
+    display.see(END)
+    time.sleep(1.0)
     lm35_fun()
+    display.insert(END, 'format waktu pada' '%d:%d:%d' %
+                   (format_waktu), ' adalah ', callback_lm35.data[2], ' celcius')
+    lm35_button.config(state=DISABLED)
 
 
 def hcsr_call():
