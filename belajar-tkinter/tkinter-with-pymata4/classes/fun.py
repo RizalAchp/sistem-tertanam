@@ -1,105 +1,174 @@
-#!/usr/bin/python3
-from pymata4.pymata4 import Pymata4
 from classes.note_music import *
-import time
-
-board = Pymata4('/dev/ttyACM0')
-
-
-def pin_led_1():
-    led_var = [6, 7, 8, 9]
-    board.set_pin_mode_digital_output(led_var[0])
-    board.digital_write(led_var[0], 1)
-    time.sleep(0.5)
-    board.digital_write(led_var[0], 0)
+from classes.config import *
+from classes.arduino import *
+from classes.gui import *
 
 
-def pin_led_2():
-    led_var = [6, 7, 8, 9]
-    board.set_pin_mode_digital_output(led_var[1])
-    board.digital_write(led_var[1], 1)
-    time.sleep(0.5)
-    board.digital_write(led_var[1], 0)
+def togle():
+    for comp in components:
+        if comp['state'] == 'disabled':
+            comp['state'] = 'normal'
+        else:
+            comp['state'] = 'disabled'
 
 
-def pin_led_3():
-    led_var = [6, 7, 8, 9]
-    board.set_pin_mode_digital_output(led_var[2])
-    board.digital_write(led_var[2], 1)
-    time.sleep(0.5)
-    board.digital_write(led_var[2], 0)
+def starting():
+    global running
+    if running is True:
+        running = False
+
+    second_text_display.insert(END, kata_starting)
+    second_text_display.see(END)
+    main_text_display.insert(END, kata_start)
+    main_text_display.see(END)
+    togle()
 
 
-def pin_led_4():
-    led_var = [6, 7, 8, 9]
-    board.set_pin_mode_digital_output(led_var[3])
-    board.digital_write(led_var[3], 1)
-    time.sleep(0.5)
-    board.digital_write(led_var[3], 0)
+def restart():
+    second_text_display.insert(END, kata_restart)
+    second_text_display.see(END)
+    second_text_display.update_idletasks()
+    window.after(2000, func=exiting())
 
 
-def pin_led_var():
-    led_var = [6, 7, 8, 9]
-    for i in led_var:
-        board.set_pin_mode_digital_output(i)
-        board.digital_write(i, 1)
-        time.sleep(0.5)
-        board.digital_write(i, 0)
+def led1():
+    second_text_display.insert(END, kata_led1_kedua)
+    second_text_display.see(END)
+    main_text_display.insert(
+        END, kata_led1_utama)
+    main_text_display.see(END)
+    board.digital_write(led_string[0], 1)
+    delay(1.0)
+    board.digital_write(led_string[0], 0)
 
 
-def buzzer_fun():
-    buzzer_pin = 5
-    board.set_pin_mode_tone(buzzer_pin)
-    for durasi in note_len:
-        for freq in note_freq:
+def led2():
+    second_text_display.insert(END, kata_led2_kedua)
+    second_text_display.see(END)
+    main_text_display.insert(
+        END, kata_led2_utama)
+    main_text_display.see(END)
+    board.digital_write(led_string[1], 1)
+    delay(1.0)
+    board.digital_write(led_string[1], 0)
+
+
+def led3():
+    second_text_display.insert(END, kata_led3_kedua)
+    second_text_display.see(END)
+    main_text_display.insert(
+        END, kata_led3_utama)
+    main_text_display.see(END)
+    board.digital_write(led_string[2], 1)
+    delay(1.0)
+    board.digital_write(led_string[2], 0)
+
+
+def led4():
+    second_text_display.insert(END, kata_led4_kedua)
+    second_text_display.see(END)
+    main_text_display.insert(
+        END, kata_led4_kedua)
+    main_text_display.see(END)
+    board.digital_write(led_string[3], 1)
+    delay(1.0)
+    board.digital_write(led_string[3], 0)
+
+
+def led_var():
+    global running
+    running = True
+    while running is True:
+        for leds in led_string:
+            board.digital_write(leds, 1)
+            delay(0.5)
+            board.digital_write(leds, 0)
+            delay(0.3)
+        else:
+            break
+
+
+def buzzer():
+    global running
+    running = True
+    if running is True:
+        for durasi, freq in zip(note_len, note_freq):
             board.play_tone(buzzer_pin, freq, durasi)
-            waktu = float(durasi/1000*0.9)
-            time.sleep(waktu)
+            ketukan = float(durasi/1000*0.8)
+            delay(ketukan)
             board.play_tone_off(buzzer_pin)
             print(freq, ' hz')
+            second_text_display.insert(END, kata_buzzer_kedua % freq)
+            second_text_display.see(END)
+            second_text_display.update_idletasks()
+            main_text_display.insert(
+                END, kata_buzzer_utama % freq)
+            main_text_display.see(END)
+            window.update()
+        else:
+            return
 
 
-def callback_lm35(data):
-    data_suhu = data[2]
-    suhu = 5.0*data_suhu/10.23
-    print(suhu, ' derajat celcius')
-
-
-def lm35_fun():
-    lm35_pin = 1
-    board.set_pin_mode_analog_input(lm35_pin, callback_lm35)
-    try:
-        board.analog_read(lm35_pin)
-    except Exception:
-        mati()
-
-
-def call_back_sonar(data):
-    # mendapatkan data bacaan sensor hcsr04
-    data_pin = data[1]
-    data_jarak = data[2]
-    print('jarak: ', data_jarak, 'pada pin ', data_pin)
-
-
-def hcsr04_fun():
-    # define trigger dan echo pin pada hcsr04
-    trig_pin = 12
-    echo_pin = 11
-    board.set_pin_mode_sonar(trig_pin, echo_pin, call_back_sonar)
-    # loop
-    while True:
+def ukur_suhu():
+    global running
+    running = True
+    while running is True:
         try:
-            time.sleep(1)
+            waktu = datetime.now()
+            format_waktu = waktu.hour, waktu.minute, waktu.second
+            datasuhu = board.analog_read(lm35_pin)
+            suhu = 5.0*datasuhu[0]/10.23
+            second_text_display.insert(END, kata_suhu_kedua % (suhu))
+            second_text_display.see(END)
+            second_text_display.update_idletasks()
+            main_text_display.insert(
+                END, kata_suhu_utama % (suhu))
+            main_text_display.insert(END,
+                                     "\npada: %d:%d:%d" % (format_waktu))
+            main_text_display.see(END)
+            main_text_display.update_idletasks()
+            window.update()
+            delay(1.0)
+        except:
+            break
+
+
+def hcsr_call():
+    # define trigger dan echo pin pada hcsr04
+    global running
+    running = True
+    # loop
+    while running is True:
+        try:
+            delay(1)
             board.sonar_read(trig_pin)
-        except Exception:
-            mati()
+        except:
+            break
 
 
-def starting_again():
-    board.start()
-
-
-def mati():
-    board.sleep_tune
+def exiting():
+    global running
+    running = False
     board.shutdown()
-    board.shutdown_on_exception
+    window.destroy()
+
+
+components = [
+    led_one, led_two, led_three, led_four, led_var_button,
+    buzzer_button, lm35_button, hcsr04_button
+]
+
+
+led_one['command'] = led1
+led_two['command'] = led2
+led_three['command'] = led3
+led_four['command'] = led4
+led_var_button['command'] = led_var
+buzzer_button['command'] = buzzer
+lm35_button['command'] = ukur_suhu
+start_button['command'] = starting
+hcsr04_button['command'] = hcsr_call
+exit_button['command'] = exiting
+
+window.resizable(False, False)
+window.mainloop()

@@ -1,144 +1,6 @@
-#!/usr/bin/python3
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, BooleanVar
 from tkinter.constants import DISABLED, END, NORMAL
-import datetime
-
-from classes.fun import *
-
-
-def togle():
-    if led_one["state"] == "disabled":
-        led_one["state"] = "normal"
-    if led_two["state"] == "disabled":
-        led_two["state"] = "normal"
-    if led_three["state"] == "disabled":
-        led_three["state"] = "normal"
-    if led_four["state"] == "disabled":
-        led_four["state"] = "normal"
-    if buzzer_button["state"] == "disabled":
-        buzzer_button["state"] = "normal"
-    if hcsr04_button["state"] == "disabled":
-        hcsr04_button["state"] = "normal"
-    if lm35_button["state"] == "disabled":
-        lm35_button["state"] = "normal"
-    if led_var_button["state"] == "disabled":
-        led_var_button["state"] = "normal"
-    else:
-        led_one["state"] = "disabled"
-        led_two["state"] = "disabled"
-        led_three["state"] = "disabled"
-        led_four["state"] = "disabled"
-        buzzer_button["state"] = "disabled"
-        hcsr04_button["state"] = "disabled"
-        lm35_button["state"] = "disabled"
-        led_var_button["state"] = "disabled"
-
-
-def starting():
-    togle()
-    display = main_text_display
-    display2 = second_text_display
-    display2.insert(END, '\nPOWER ON!')
-    display2.see(END)
-    display.insert(END, 'SELAMAT DATANG!\nDisini anda dapat melakukan banyak hal pada arduino dengan\nmenggunakan GUI!\n\t1. anda dapat menghidupkan LED satu persatu pada tombol\n\t   dengan icon LED dibagian kanan!\n\t2.anda juga dapat menggunakan tombol dibawahnya untuk\n\t   memulai fungsi2 pada sensor!\nDan banyak inputan2 yang dapat digunakan untuk fungsi\nyang akan dijalankan!')
-    display.see(END)
-
-
-def restart():
-    togle()
-    mati()
-    display2 = second_text_display
-    display2.insert(END, '\nPOWERING OFF....')
-    display2.see(END)
-
-
-def led1():
-    display2 = second_text_display
-    display2.insert(END, '\nLED 1 HIDUP')
-    display2.see(END)
-    display = main_text_display
-    display.insert(
-        END, '\nANDA MENJALANKAN FUNGSI LED1\nLED1 AKAN BERKEDIP SEKALI.\n')
-    display.see(END)
-    pin_led_1()
-    led_one.config(state=NORMAL)
-
-
-def led2():
-    display2 = second_text_display
-    display2.insert(END, '\nLED 2 HIDUP')
-    display2.see(END)
-    display = main_text_display
-    display.insert(
-        END, '\nANDA MENJALANKAN FUNSI LED2\nLED2 AKAN BERKEDIP SEKALI.\n')
-    display.see(END)
-    pin_led_2()
-    led_two.config(state=NORMAL)
-
-
-def led3():
-    display2 = second_text_display
-    display2.insert(END, '\nLED 3 HIDUP')
-    display2.see(END)
-    display = main_text_display
-    display.insert(
-        END, '\nANDA MENJALANKAN FUNSI LED3\nLED3 AKAN BERKEDIP SEKALI.\n')
-    display.see(END)
-    pin_led_3()
-    led_three.config(state=NORMAL)
-
-
-def led4():
-    display2 = second_text_display
-    display2.insert(END, '\nLED 4 HIDUP')
-    display2.see(END)
-    display = main_text_display
-    display.insert(
-        END, '\nANDA MENJALANKAN FUNSI LED4\nLED4 AKAN BERKEDIP SEKALI,\n')
-    display.see(END)
-    pin_led_4()
-    led_four.config(state=NORMAL)
-
-
-def led_var():
-    led_var_button.config(state=NORMAL)
-    pin_led_var()
-
-
-def buzzer():
-    buzzer_fun()
-    display2 = second_text_display
-    display2.insert(END, '\nbuzzer berbunyi')
-    display2.see(END)
-    display = main_text_display
-    display.insert(
-        END, '\nANDA MENJALANKAN FUNSI BUZZER\nBUZZER AKAN BERBUNYI,\nPADA FREQUENSI= hz')
-    display.see(END)
-    print('buzzer berbunyi')
-    buzzer_button.config(state=NORMAL)
-
-
-def ukur_suhu():
-    waktu = datetime.datetime.now()
-    format_waktu = waktu.hour, waktu.minute, waktu.second
-    display2 = second_text_display
-    display2.insert(END, '\nLM35 Mengukur suhu..')
-    display2.see(END)
-    display = main_text_display
-    display.insert(
-        END, '\nANDA MENJALANKAN FUNSI LM35\nLM35 AKAN MENGUKUR SUHU..')
-    display.see(END)
-    time.sleep(1.0)
-    lm35_fun()
-    display.insert(END, 'format waktu pada' '%d:%d:%d' %
-                   (format_waktu), ' adalah ', callback_lm35.data[2], ' celcius')
-    lm35_button.config(state=DISABLED)
-
-
-def hcsr_call():
-    hcsr04_button.config(state=NORMAL)
-    hcsr04_fun()
 
 
 def path_asset(path: str) -> Path:
@@ -146,14 +8,47 @@ def path_asset(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
+running = True
 OUTPUT_PATH = Path(__file__).parent
 # string full path, agar dapat di panggil setiap aset nya.
 ASSETS_PATH = OUTPUT_PATH / Path("../assets")
-
 # variable tkinter dan widget2 nya
 window = Tk()
 window.geometry("620x641")
 window.configure(bg="#7C7C7C")
+boolfoo = BooleanVar(window)
+boolfoo.set(True)
+
+button_image_10 = PhotoImage(
+    file=path_asset("led_one.png"))
+button_image_9 = PhotoImage(
+    file=path_asset("led_two.png"))
+button_image_8 = PhotoImage(
+    file=path_asset("led_three.png"))
+button_image_7 = PhotoImage(
+    file=path_asset("led_four.png"))
+button_image_6 = PhotoImage(
+    file=path_asset("button_6.png"))
+button_image_5 = PhotoImage(
+    file=path_asset("button_5.png"))
+button_image_4 = PhotoImage(
+    file=path_asset("button_4.png"))
+button_image_3 = PhotoImage(
+    file=path_asset("button_3.png"))
+button_image_2 = PhotoImage(
+    file=path_asset("button_2.png"))
+button_image_1 = PhotoImage(
+    file=path_asset("button_1.png"))
+entry_image_5 = PhotoImage(
+    file=path_asset("entry_5.png"))
+entry_image_4 = PhotoImage(
+    file=path_asset("entry_4.png"))
+entry_image_3 = PhotoImage(
+    file=path_asset("entry_3.png"))
+entry_image_2 = PhotoImage(
+    file=path_asset("entry_2.png"))
+main_text_display_image_1 = PhotoImage(
+    file=path_asset("entry_1.png"))
 
 canvas = Canvas(
     window,
@@ -174,8 +69,6 @@ canvas.create_rectangle(
     fill="#FFFFFF",
     outline="")
 
-main_text_display_image_1 = PhotoImage(
-    file=path_asset("entry_1.png"))
 entry_bg_1 = canvas.create_image(
     310.0,
     155.0,
@@ -194,8 +87,6 @@ main_text_display.place(
     height=160.0
 )
 
-entry_image_2 = PhotoImage(
-    file=path_asset("entry_2.png"))
 entry_bg_2 = canvas.create_image(
     186.0,
     291.0,
@@ -214,8 +105,6 @@ second_text_display.place(
     height=20.0
 )
 
-entry_image_3 = PhotoImage(
-    file=path_asset("entry_3.png"))
 entry_bg_3 = canvas.create_image(
     229.5,
     543.5,
@@ -234,8 +123,6 @@ value_delay.place(
     height=40.0
 )
 
-entry_image_4 = PhotoImage(
-    file=path_asset("entry_4.png"))
 entry_bg_4 = canvas.create_image(
     229.5,
     472.5,
@@ -254,8 +141,6 @@ value_text.place(
     height=40.0
 )
 
-entry_image_5 = PhotoImage(
-    file=path_asset("entry_5.png"))
 entry_bg_5 = canvas.create_image(
     229.5,
     402.5,
@@ -273,13 +158,10 @@ value_nama.place(
     height=40.0
 )
 
-button_image_1 = PhotoImage(
-    file=path_asset("button_1.png"))
 exit_button = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=restart,
     relief="raised"
 )
 exit_button.place(
@@ -289,13 +171,10 @@ exit_button.place(
     height=52.0
 )
 
-button_image_2 = PhotoImage(
-    file=path_asset("button_2.png"))
 start_button = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=starting,
     relief="raised"
 )
 start_button.place(
@@ -305,13 +184,10 @@ start_button.place(
     height=52.0
 )
 
-button_image_3 = PhotoImage(
-    file=path_asset("button_3.png"))
 hcsr04_button = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
     state="disabled",
     relief="raised"
 )
@@ -322,13 +198,10 @@ hcsr04_button.place(
     height=44.918792724609375
 )
 
-button_image_4 = PhotoImage(
-    file=path_asset("button_4.png"))
 led_var_button = Button(
     image=button_image_4,
     borderwidth=0,
     highlightthickness=0,
-    command=led_var,
     state="disabled",
     relief="raised"
 )
@@ -339,13 +212,10 @@ led_var_button.place(
     height=44.918792724609375
 )
 
-button_image_5 = PhotoImage(
-    file=path_asset("button_5.png"))
 lm35_button = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
-    command=ukur_suhu,
     state="disabled",
     relief="raised"
 )
@@ -356,13 +226,10 @@ lm35_button.place(
     height=44.918792724609375
 )
 
-button_image_6 = PhotoImage(
-    file=path_asset("button_6.png"))
 buzzer_button = Button(
     image=button_image_6,
     borderwidth=0,
     highlightthickness=0,
-    command=buzzer,
     state="disabled",
     relief="raised"
 )
@@ -373,13 +240,10 @@ buzzer_button.place(
     height=44.918792724609375
 )
 
-button_image_7 = PhotoImage(
-    file=path_asset("led_four.png"))
 led_four = Button(
     image=button_image_7,
     borderwidth=0,
     highlightthickness=0,
-    command=led4,
     state="disabled",
     relief="raised"
 )
@@ -390,13 +254,11 @@ led_four.place(
     height=44.918792724609375
 )
 
-button_image_8 = PhotoImage(
-    file=path_asset("led_three.png"))
+
 led_three = Button(
     image=button_image_8,
     borderwidth=0,
     highlightthickness=0,
-    command=led3,
     state="disabled",
     relief="raised"
 )
@@ -407,13 +269,10 @@ led_three.place(
     height=44.918792724609375
 )
 
-button_image_9 = PhotoImage(
-    file=path_asset("led_two.png"))
 led_two = Button(
     image=button_image_9,
     borderwidth=0,
     highlightthickness=0,
-    command=led2,
     state="disabled",
     relief="raised"
 )
@@ -424,13 +283,10 @@ led_two.place(
     height=44.918792724609375
 )
 
-button_image_10 = PhotoImage(
-    file=path_asset("led_one.png"))
 led_one = Button(
     image=button_image_10,
     borderwidth=0,
     highlightthickness=0,
-    command=led1,
     activebackground="#f1f1f0",
     highlightbackground="#FFFFFF",
     state="disabled",
@@ -487,5 +343,3 @@ canvas.create_text(
     fill="#7C7C7C",
     font=("mononokiNerdFontComplete Regular", 14 * -1)
 )
-window.resizable(False, False)
-window.mainloop()

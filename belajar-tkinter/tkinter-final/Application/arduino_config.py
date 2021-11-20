@@ -1,3 +1,11 @@
+'''
+object:
+    file `arduino_config.py` ini hanya sebagai
+    object file configurasi maupun variable yang 
+    dubutuhkan untuk menjalankan fungsi2 arduino
+    pada file `fun.py`
+'''
+
 import time
 import datetime
 from pyfirmata import Arduino, util

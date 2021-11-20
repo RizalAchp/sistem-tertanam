@@ -1,3 +1,10 @@
+'''
+info:
+    file ini adalah class baru yang digunakan sebagia popup window baru
+    berisi widget gauge yang bergunsi untuk mengukur suhu
+    pada sensor lm35 pada arduino
+'''
+
 from tkinter import Toplevel, Label, BooleanVar, Button
 from tk_tools.canvas import RotaryScale
 from Application.arduino_config import *

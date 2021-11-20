@@ -1,6 +1,13 @@
+'''
+info:
+    pada file config ini, saya menconfigurasikan semua komponen
+    maupun widget pada gui, agar mudah untuk di akses
+    dan lebih rapi.
+'''
+
 from pathlib import Path
 from tkinter import Tk, Canvas, Text, Button, PhotoImage, BooleanVar
-from tkinter.constants import END
+from tkinter.constants import END, INSERT
 from tk_tools import Led
 
 # variable string ``Path`` assets

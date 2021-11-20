@@ -1,5 +1,10 @@
-#!/usr/bin/python3
-from tkinter.constants import INSERT
+'''
+info :
+    pada file `fun.py` ini, saya menjadikannya sebagai object class
+    yang berisi semua function saat `button` atau tombol pada gui
+    di di tekan.
+'''
+
 from Application.arduino_config import *
 from Application.note_music import *
 from Application.config import *
@@ -20,41 +25,18 @@ def start_text():
 
 def start_buttonclicked():
     # toggle tombol
-    if led1_button["state"] == "disabled":
-        led1_button["state"] = "normal"
-    if led2_button["state"] == "disabled":
-        led2_button["state"] = "normal"
-    if led3_button["state"] == "disabled":
-        led3_button["state"] = "normal"
-    if led4_button["state"] == "disabled":
-        led4_button["state"] = "normal"
-    if led_var_button["state"] == "disabled":
-        led_var_button["state"] = "normal"
-    if suhu_button["state"] == "disabled":
-        suhu_button["state"] = "normal"
-    if buzzer_button["state"] == "disabled":
-        buzzer_button["state"] = "normal"
-    if sonar_button["state"] == "disabled":
-        sonar_button["state"] = "normal"
-    if stop_loop_btn["state"] == "disabled":
-        stop_loop_btn["state"] = "normal"
-    else:
-        led1_button["state"] = "disabled"
-        led2_button["state"] = "disabled"
-        led3_button["state"] = "disabled"
-        led4_button["state"] = "disabled"
-        led_var_button["state"] = "disabled"
-        suhu_button["state"] = "disabled"
-        sonar_button["state"] = "disabled"
-        buzzer_button["state"] = "disabled"
-        stop_loop_btn["state"] = "disabled"
+    for buttons in button_string:
+        if buttons['state'] == 'disabled':
+            buttons['state'] = 'normal'
+        else:
+            buttons['state'] = 'disabled'
 
 
 def led1_blink():
     # func led1
     global running
     running = True
-    if flag.get() and running:
+    if running:
         led1_widget.to_green(on=True)
         display.config(foreground="black")
         display.insert(
@@ -62,7 +44,7 @@ def led1_blink():
         display.see(END)
         display2.config(foreground="#0000ff")
         display2.insert(
-            INSERT, '\n\n➥ led1 pada pin %s , hidup' % (ledPin[0]))
+            INSERT, '\n\n ➥ led1 pada pin %s , hidup' % (ledPin[0]))
         display2.see(INSERT)
         display.update_idletasks()
         display2.update_idletasks()
@@ -70,7 +52,7 @@ def led1_blink():
         waktu(0.5)
         board.digital[ledPin[0]].write(0)
         led1_widget.to_grey(on=True)
-        led1_widget.update_idletasks
+        led1_widget.update_idletasks()
         window.update()
     else:
         return
@@ -80,7 +62,7 @@ def led2_blink():
     # func led2
     global running
     running = True
-    if flag.get() and running:
+    if running:
         led2_widget.to_green(on=True)
         display.config(foreground="black")
         display.insert(
@@ -92,10 +74,10 @@ def led2_blink():
         display.update_idletasks()
         display2.update_idletasks()
         board.digital[ledPin[1]].write(1)
-        board.pass_time(0.5)
+        waktu(0.5)
         board.digital[ledPin[1]].write(0)
         led2_widget.to_grey(on=True)
-        led2_widget.update_idletasks
+        led2_widget.update_idletasks()
         window.update()
     else:
         return
@@ -105,7 +87,7 @@ def led3_blink():
     # func led3
     global running
     running = True
-    if flag.get() and running:
+    if running:
         led3_widget.to_green(on=True)
         display.config(foreground="black")
         display.insert(
@@ -117,10 +99,10 @@ def led3_blink():
         display.update_idletasks()
         display2.update_idletasks()
         board.digital[ledPin[1]].write(1)
-        board.pass_time(0.5)
+        waktu(0.5)
         board.digital[ledPin[1]].write(0)
         led3_widget.to_grey(on=True)
-        led3_widget.update_idletasks
+        led3_widget.update_idletasks()
         window.update()
     else:
         return
@@ -130,7 +112,7 @@ def led4_blink():
     # func led4
     global running
     running = True
-    if flag.get() and running:
+    if running:
         led4_widget.to_green(on=True)
         display.config(foreground="black")
         display.insert(
@@ -142,10 +124,10 @@ def led4_blink():
         display.update_idletasks()
         display2.update_idletasks()
         board.digital[ledPin[1]].write(1)
-        board.pass_time(0.5)
+        waktu(0.5)
         board.digital[ledPin[1]].write(0)
         led4_widget.to_grey(on=True)
-        led4_widget.update_idletasks
+        led4_widget.update_idletasks()
         window.update()
     else:
         return
@@ -163,9 +145,9 @@ def led_var():
     while running:
         for x in ledPin:
             board.digital[x].write(1)
-            board.pass_time(0.3)
+            waktu(0.3)
             board.digital[x].write(0)
-            board.pass_time(0.3)
+            waktu(0.3)
             display.insert(
                 END, '\n\nLed pada Pin %s, hidup berurutan sesuai array' % (x))
             display.see(END)
@@ -187,9 +169,9 @@ def buzzer():
     running = True
     for x, (durasi, freq) in enumerate(zip(note_len, note_freq)):
         buzzer_pin.write(freq)
-        board.pass_time(durasi)
+        waktu(durasi)
         buzzer_pin.write(0)
-        board.pass_time(durasi)
+        waktu(durasi)
         if flag.get() and running:
             display.insert(
                 END, '\nBuzzer Berbunyi pada nilai = %s' % (freq), ' sesuai array lagu')
@@ -272,6 +254,17 @@ def shutdowns():
 
 
 start_text()
+
+button_string = [
+    led1_button, led2_button, led3_button, led4_button, led_var_button,
+    suhu_button, buzzer_button, sonar_button, stop_loop_btn
+]
+# command_string = sensor_sonic, sensor_suhu, start_buttonclicked, stop, stop_loop,\
+#     buzzer, led_var, led1_blink, led2_blink, led3_blink, led4_blink
+
+# for butt, comms in zip(button_string, command_string):
+#     butt['command'] = comms
+
 
 sonar_button['command'] = sensor_sonic
 suhu_button['command'] = sensor_suhu
