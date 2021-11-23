@@ -1,14 +1,14 @@
-'''
-info :
+#!/usr/bin/python
+"""
+[info]
     pada file `fun.py` ini, saya menjadikannya sebagai object class
     yang berisi semua function saat `button` atau tombol pada gui
     di di tekan.
-'''
+"""
 
 from Application.arduino_config import *
 from Application.note_music import *
 from Application.config import *
-
 from Application import popup_suhu
 
 
@@ -157,6 +157,8 @@ def led_var():
             display2.see(END)
             display2.update_idletasks()
             window.update()
+        if running == False:
+            break
 
 
 def buzzer():
@@ -167,7 +169,7 @@ def buzzer():
     display.see(END)
     display2.config(foreground="#0000ff")
     running = True
-    for x, (durasi, freq) in enumerate(zip(note_len, note_freq)):
+    for durasi, freq in zip(note_len, note_freq):
         buzzer_pin.write(freq)
         waktu(durasi)
         buzzer_pin.write(0)
@@ -187,7 +189,7 @@ def buzzer():
 
 
 def sensor_suhu():
-    popup_suhu.NewWindow()
+    popup_suhu.suhuWindow(window)
     # while True:
     #     if flag.get() and running:
     #         nilai = analog_suhu.read()
@@ -259,12 +261,6 @@ button_string = [
     led1_button, led2_button, led3_button, led4_button, led_var_button,
     suhu_button, buzzer_button, sonar_button, stop_loop_btn
 ]
-# command_string = sensor_sonic, sensor_suhu, start_buttonclicked, stop, stop_loop,\
-#     buzzer, led_var, led1_blink, led2_blink, led3_blink, led4_blink
-
-# for butt, comms in zip(button_string, command_string):
-#     butt['command'] = comms
-
 
 sonar_button['command'] = sensor_sonic
 suhu_button['command'] = sensor_suhu
@@ -274,13 +270,9 @@ stop_loop_btn['command'] = stop_loop
 buzzer_button['command'] = buzzer
 led_var_button['command'] = led_var
 led1_button['command'] = led1_blink
-# led1_widget.to_green(on=False)
 led2_button['command'] = led2_blink
-# led2_widget.to_green(on=False)
 led3_button['command'] = led3_blink
-# led3_widget.to_green(on=False)
 led4_button['command'] = led4_blink
-# led4_widget.to_green(on=False)
 
 window.resizable(False, False)
 window.mainloop()

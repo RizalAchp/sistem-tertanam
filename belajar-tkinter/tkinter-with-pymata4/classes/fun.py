@@ -3,32 +3,26 @@ from classes.config import *
 from classes.arduino import *
 from classes.gui import *
 
+from classes.popup_suhu import suhuWindow
+
 
 def togle():
-    for comp in components:
-        if comp['state'] == 'disabled':
-            comp['state'] = 'normal'
+    for tombol in tombols:
+        if tombol['state'] == 'disabled':
+            tombol['state'] = 'normal'
         else:
-            comp['state'] = 'disabled'
+            tombol['state'] = 'disabled'
 
 
 def starting():
     global running
-    if running is True:
-        running = False
+    running = False
 
     second_text_display.insert(END, kata_starting)
     second_text_display.see(END)
     main_text_display.insert(END, kata_start)
     main_text_display.see(END)
     togle()
-
-
-def restart():
-    second_text_display.insert(END, kata_restart)
-    second_text_display.see(END)
-    second_text_display.update_idletasks()
-    window.after(2000, func=exiting())
 
 
 def led1():
@@ -78,7 +72,7 @@ def led4():
 def led_var():
     global running
     running = True
-    while running is True:
+    while running:
         for leds in led_string:
             board.digital_write(leds, 1)
             delay(0.5)
@@ -91,10 +85,10 @@ def led_var():
 def buzzer():
     global running
     running = True
-    if running is True:
+    if running:
         for durasi, freq in zip(note_len, note_freq):
-            board.play_tone(buzzer_pin, freq, durasi)
-            ketukan = float(durasi/1000*0.8)
+            board.play_tone(buzzer_pin, freq, durasi*0.9)
+            ketukan = float(durasi/1000)
             delay(ketukan)
             board.play_tone_off(buzzer_pin)
             print(freq, ' hz')
@@ -112,7 +106,7 @@ def buzzer():
 def ukur_suhu():
     global running
     running = True
-    while running is True:
+    while running:
         try:
             waktu = datetime.now()
             format_waktu = waktu.hour, waktu.minute, waktu.second
@@ -137,13 +131,31 @@ def hcsr_call():
     # define trigger dan echo pin pada hcsr04
     global running
     running = True
+    suhuWindow()
     # loop
-    while running is True:
+    while running:
         try:
             delay(1)
-            board.sonar_read(trig_pin)
+            baca_jarak = board.sonar_read(trigpin)
+            jarak = baca_jarak[0]
+            main_text_display.insert(END, kata_jarak_utama % (jarak))
+            main_text_display.see(END)
+            main_text_display.update_idletasks()
+            second_text_display.insert(END, kata_jarak_kedua % (jarak))
+            second_text_display.see(END)
+            second_text_display.update_idletasks()
+            window.update()
+            delay(1.0)
         except:
             break
+
+
+def restart():
+    second_text_display.insert(END, kata_restart)
+    second_text_display.see(END)
+    second_text_display.update_idletasks()
+    window.update()
+    window.after(2000, func=exiting())
 
 
 def exiting():
@@ -153,7 +165,7 @@ def exiting():
     window.destroy()
 
 
-components = [
+tombols = [
     led_one, led_two, led_three, led_four, led_var_button,
     buzzer_button, lm35_button, hcsr04_button
 ]

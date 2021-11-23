@@ -22,3 +22,6 @@ kata_buzzer_kedua = "\nFREQUENSI = %d Hz"
 
 kata_suhu_utama = "\nSUHU DIDAPATKAN = %.2f derajat Celcius"
 kata_suhu_kedua = "\nSUHU = %.2f °C"
+
+kata_jarak_utama = "\nJARAK YANG DIDAPATKAN = %.2f centimeter"
+kata_jarak_kedua = "\nJARAK = %.2f cm"

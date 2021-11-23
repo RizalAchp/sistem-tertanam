@@ -1,6 +1,7 @@
+#!/usr/bin/env python3
 import Application
-import main
 
 
-if __name__ == main:
-    Application()
+if __name__ == '__main__':
+    app = Application()
+    app.run()
